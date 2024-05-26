@@ -17,13 +17,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-@CommandParameters(name = "reports", usage = "/<command> <player> <list | details <id> | delete <id>>", description = "View existing reports on a player", permission = "medina.reports", source = RequiredCommandSource.ANY)
+@CommandParameters(name = "reports", usage = "/<command> <player> <list | delete <id>>", description = "View existing reports on a player", permission = "medina.reports", source = RequiredCommandSource.ANY)
 public class ReportsCommand extends MedinaCommand
 {
     @Override
     protected Component execute(@NotNull CommandSender sender, @Nullable Player playerSender, @NotNull String[] args)
     {
-        if (args.length == 0)
+        if (args.length < 2)
         {
             return usage();
         }
@@ -56,9 +56,18 @@ public class ReportsCommand extends MedinaCommand
             }
             case "delete":
             {
+                if (args.length < 3)
+                {
+                    return usage();
+                }
                 int id = parseInt(sender, args[2]);
                 plugin.getSqlReports().getReports(id).whenComplete(((report, ex) ->
                 {
+                    if (report == null)
+                    {
+                        send(sender, messageComponent("reportDoesntExist"));
+                        return;
+                    }
                     if (report.isDeleted())
                     {
                         send(sender, messageComponent("reportDoesntExist"));
