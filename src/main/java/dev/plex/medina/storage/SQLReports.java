@@ -18,7 +18,7 @@ public class SQLReports implements MedinaBase
 {
     private static final String SELECT = "SELECT * FROM `reports` WHERE reportedUUID=?";
     private static final String SELECT_ID = "SELECT * FROM `reports` WHERE reportId=?";
-    private static final String INSERT = "INSERT INTO `reports` (`reportId`, `reporterUUID`, `reporterName`, `reportedUUID`, `reportedName`, `timestamp`, `reason`, `deleted`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO `reports` (`reporterUUID`, `reporterName`, `reportedUUID`, `reportedName`, `timestamp`, `reason`, `deleted`) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE = "UPDATE `reports` SET `deleted`=true WHERE reportId=? AND reportedUUID=?";
 
     public CompletableFuture<Report> getReports(int reportedId)
@@ -114,14 +114,13 @@ public class SQLReports implements MedinaBase
                 try (Connection con = plugin.getSqlConnection().getCon())
                 {
                     PreparedStatement statement = con.prepareStatement(INSERT);
-                    statement.setInt(1, reports.size() + 1);
-                    statement.setString(2, report.getReporterUUID().toString());
-                    statement.setString(3, report.getReporterName());
-                    statement.setString(4, report.getReportedUUID().toString());
-                    statement.setString(5, report.getReportedName());
-                    statement.setLong(6, report.getTimestamp().toInstant().toEpochMilli());
-                    statement.setString(7, report.getReason());
-                    statement.setBoolean(8, report.isDeleted());
+                    statement.setString(1, report.getReporterUUID().toString());
+                    statement.setString(2, report.getReporterName());
+                    statement.setString(3, report.getReportedUUID().toString());
+                    statement.setString(4, report.getReportedName());
+                    statement.setLong(5, report.getTimestamp().toInstant().toEpochMilli());
+                    statement.setString(6, report.getReason());
+                    statement.setBoolean(7, report.isDeleted());
                     statement.execute();
                 }
                 catch (Throwable e)
