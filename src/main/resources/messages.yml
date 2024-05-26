@@ -1,0 +1,19 @@
+# Medina Messages File
+# This file uses the MiniMessage system.
+# Documentation available at https://docs.adventure.kyori.net/minimessage/format.html
+
+# Messages in here will be placed in for certain commands, actions, etc.
+# Warning: not all commands have customizable messages
+
+# Variables {number} - these are code-defined replacements for things that should be inserted into messages. (e.g. names, statuses, numbers)
+# If any of these variables are supposed to be used within a message, some documentation is provided to give more context to what the variables indicate.
+# If you are wishing to change these messages it's recommended you use the same amount of variables as stated in the documentation, however it's not required.
+
+playerNotFound: "<red>Player not found!"
+specifyPlayer: "<red>You must specify a player!"
+
+# 0 - The permission node required to use the command
+noPermissionNode: "<red>You must have the permission: {0} <red>to use this command!"
+noPermissionInGame: "<red>You must be in console to use this command!"
+noPermissionConsole: "<red>You must be in-game to use this command!"
+consoleOnly: "<red>This command can only be executed by the console."

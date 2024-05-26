@@ -1,0 +1,11 @@
+[versions]
+paper = "1.20.4-R0.1-SNAPSHOT"
+bstats = "3.0.2"
+
+[libraries]
+paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+bstatsBase = { group = "org.bstats", name = "bstats-base", version.ref = "bstats" }
+bstatsBukkit = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bstats" }
+
+[bundles]
+bstats = ["bstatsBase", "bstatsBukkit"]
