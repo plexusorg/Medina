@@ -31,6 +31,12 @@ public class ReportCommand extends MedinaCommand
 
         Player player = getNonNullPlayer(args[0]);
 
+        if (player.getName().equalsIgnoreCase(sender.getName()))
+        {
+            send(sender, messageComponent("cantReportYourself"));
+            return null;
+        }
+
         String reason = StringUtils.join(args, " ", 1, args.length);
 
         Report report = new Report(

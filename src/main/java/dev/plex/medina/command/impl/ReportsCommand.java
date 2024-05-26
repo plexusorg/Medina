@@ -75,8 +75,11 @@ public class ReportsCommand extends MedinaCommand
 
                 return null;
             }
+            default:
+            {
+                return usage();
+            }
         }
-        return null;
     }
 
     private void readReports(@NotNull CommandSender sender, OfflinePlayer player, List<Report> reports)

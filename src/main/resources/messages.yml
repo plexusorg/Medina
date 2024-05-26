@@ -43,3 +43,5 @@ reportDoesntExist: "<red>There is no report with this ID belonging to that playe
 # 1 - The person being reported
 # 2 - The reason for the report
 notifyReport: "<dark_gray>[<yellow>REPORT<dark_gray>] <gold>{0} reported {1} for {2}"
+
+cantReportYourself: "<red>You cannot report yourself."
