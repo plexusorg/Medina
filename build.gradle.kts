@@ -26,8 +26,11 @@ java {
 }
 
 dependencies {
+    library(libs.lombok)
+    library(libs.hikari)
     compileOnly(libs.paperApi)
     implementation(libs.bundles.bstats) { isTransitive = false }
+    annotationProcessor(libs.lombok)
 }
 
 tasks {

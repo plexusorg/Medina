@@ -1,14 +1,19 @@
 package dev.plex.medina.util;
 
+import dev.plex.medina.Medina;
 import dev.plex.medina.MedinaBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class MedinaUtils implements MedinaBase
 {
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+    public static String TIMEZONE = plugin.config.getString("timezone");
 
     public static Component mmDeserialize(String input)
     {
@@ -53,5 +58,25 @@ public class MedinaUtils implements MedinaBase
             f = f.replace("{" + i + "}", String.valueOf(objects[i]));
         }
         return f;
+    }
+
+    public static void testConnection()
+    {
+        MedinaLog.log("Attempting to connect to DB: {0}", plugin.config.getString("database.name"));
+        if (plugin.getSqlConnection().getDataSource() != null)
+        {
+            try (Connection ignored = plugin.getSqlConnection().getCon())
+            {
+                MedinaLog.log("Connected to " + plugin.config.getString("database.name"));
+            }
+            catch (SQLException e)
+            {
+                MedinaLog.error("Failed to connect to " + plugin.config.getString("database.name"));
+            }
+        }
+        else
+        {
+            MedinaLog.error("Unable to initialize Hikari data source!");
+        }
     }
 }

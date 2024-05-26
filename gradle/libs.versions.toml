@@ -1,11 +1,15 @@
 [versions]
 paper = "1.20.4-R0.1-SNAPSHOT"
 bstats = "3.0.2"
+lombok = "1.18.32"
+hikari = "5.1.0"
 
 [libraries]
 paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 bstatsBase = { group = "org.bstats", name = "bstats-base", version.ref = "bstats" }
 bstatsBukkit = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bstats" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+hikari = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikari" }
 
 [bundles]
 bstats = ["bstatsBase", "bstatsBukkit"]

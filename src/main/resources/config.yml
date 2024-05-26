@@ -1,1 +1,12 @@
 # Medina Configuration File
+
+# Database configuration
+database:
+  name: medina
+  hostname: 127.0.0.1
+  port: 3306
+  username: minecraft
+  password: medina
+
+# The timezone the reports will show up as
+timezone: Etc/UTC
