@@ -67,6 +67,14 @@ public class MedinaUtils implements MedinaBase
         return f;
     }
 
+    public static void broadcastToAdmins(Component component, String permission)
+    {
+        Bukkit.getOnlinePlayers().stream().filter(pl -> pl.hasPermission(permission)).forEach(pl ->
+        {
+            pl.sendMessage(component);
+        });
+    }
+
     public static List<String> getPlayerNameList()
     {
         return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());

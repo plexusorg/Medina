@@ -38,3 +38,8 @@ reportLine: "<newline><yellow># {0}"
 deletedReport: "<green>Report ID: {0} deleted"
 
 reportDoesntExist: "<red>There is no report with this ID belonging to that player."
+
+# 0 - The person who initiated the report
+# 1 - The person being reported
+# 2 - The reason for the report
+notifyReport: "<dark_gray>[<yellow>REPORT<dark_gray>] <gold>{0} reported {1} for {2}"

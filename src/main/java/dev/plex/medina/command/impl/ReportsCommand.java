@@ -4,7 +4,6 @@ import dev.plex.medina.command.MedinaCommand;
 import dev.plex.medina.command.annotation.CommandParameters;
 import dev.plex.medina.command.source.RequiredCommandSource;
 import dev.plex.medina.data.Report;
-import dev.plex.medina.util.MedinaLog;
 import dev.plex.medina.util.MedinaUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -14,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -86,6 +84,10 @@ public class ReportsCommand extends MedinaCommand
         AtomicReference<Component> reportList = new AtomicReference<>(messageComponent("reportHeader", player.getName()));
         for (Report report : reports)
         {
+            if (report.isDeleted())
+            {
+                continue;
+            }
             Component reportLine = messageComponent("reportPrefix", report.getReportId(), player.getName(), MedinaUtils.useTimezone(report.getTimestamp()));
             reportLine = reportLine.append(messageComponent("reportLine", report.getReason()));
             reportList.set(reportList.get().append(Component.newline()));

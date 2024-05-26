@@ -24,60 +24,49 @@ public class SQLReports implements MedinaBase
 
     public CompletableFuture<Report> getReports(int reportedId)
     {
-        MedinaLog.log("getting reports for: " + reportedId);
         return CompletableFuture.supplyAsync(() ->
         {
             Report report;
-            MedinaLog.log("initialized List<Report>");
             try (Connection con = plugin.getSqlConnection().getCon())
             {
-                MedinaLog.log("opened connection");
                 PreparedStatement statement = con.prepareStatement(SELECT_ID);
-                MedinaLog.log("prepared select statement");
                 statement.setInt(1, reportedId);
-                MedinaLog.log("set reportedUUID to " + reportedId);
                 ResultSet set = statement.executeQuery();
-                MedinaLog.log("executing query");
-                MedinaLog.log("adding a report...");
-                report = new Report(
-                        reportedId,
-                        UUID.fromString(set.getString("reporterUUID")),
-                        set.getString("reporterName"),
-                        UUID.fromString(set.getString("reportedUUID")),
-                        set.getString("reportedName"),
-                        ZonedDateTime.ofInstant(Instant.ofEpochMilli(set.getLong("timestamp")), ZoneId.systemDefault()),
-                        set.getString("reason"),
-                        set.getBoolean("deleted"));
-                MedinaLog.log("added a report, id is " + report.getReportId());
-                return report;
+                if (set.next())
+                {
+                    report = new Report(
+                            reportedId,
+                            UUID.fromString(set.getString("reporterUUID")),
+                            set.getString("reporterName"),
+                            UUID.fromString(set.getString("reportedUUID")),
+                            set.getString("reportedName"),
+                            ZonedDateTime.ofInstant(Instant.ofEpochMilli(set.getLong("timestamp")), ZoneId.systemDefault()),
+                            set.getString("reason"),
+                            set.getBoolean("deleted"));
+                    return report;
+                }
             }
             catch (Throwable e)
             {
                 e.printStackTrace();
                 return null;
             }
+            return null;
         });
     }
 
     public CompletableFuture<List<Report>> getReports(UUID reportedUUID)
     {
-        MedinaLog.log("getting reports for: " + reportedUUID);
         return CompletableFuture.supplyAsync(() ->
         {
             List<Report> reports = Lists.newArrayList();
-            MedinaLog.log("initialized List<Report>");
             try (Connection con = plugin.getSqlConnection().getCon())
             {
-                MedinaLog.log("opened connection");
                 PreparedStatement statement = con.prepareStatement(SELECT);
-                MedinaLog.log("prepared select statement");
                 statement.setString(1, reportedUUID.toString());
-                MedinaLog.log("set reportedUUID to " + reportedUUID);
                 ResultSet set = statement.executeQuery();
-                MedinaLog.log("executing query");
                 while (set.next())
                 {
-                    MedinaLog.log("adding a report...");
                     Report report = new Report(
                             set.getInt("reportId"),
                             UUID.fromString(set.getString("reporterUUID")),
@@ -88,7 +77,6 @@ public class SQLReports implements MedinaBase
                             set.getString("reason"),
                             set.getBoolean("deleted"));
                     reports.add(report);
-                    MedinaLog.log("added a report, id is " + report.getReportId());
                 }
             }
             catch (Throwable e)
@@ -102,18 +90,14 @@ public class SQLReports implements MedinaBase
 
     public CompletableFuture<Void> deleteReport(int reportId, UUID reportedUUID)
     {
-        MedinaLog.log("deleting report");
         return CompletableFuture.runAsync(() ->
         {
-            MedinaLog.log("running async");
             try (Connection con = plugin.getSqlConnection().getCon())
             {
-                MedinaLog.log("established connection");
                 PreparedStatement statement = con.prepareStatement(DELETE);
                 statement.setInt(1, reportId);
                 statement.setString(2, reportedUUID.toString());
                 statement.execute();
-                MedinaLog.log("deleted report");
             }
             catch (Throwable e)
             {
