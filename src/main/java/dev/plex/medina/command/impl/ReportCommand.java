@@ -4,7 +4,6 @@ import dev.plex.medina.command.MedinaCommand;
 import dev.plex.medina.command.annotation.CommandParameters;
 import dev.plex.medina.command.source.RequiredCommandSource;
 import dev.plex.medina.data.Report;
-import dev.plex.medina.util.MedinaLog;
 import dev.plex.medina.util.MedinaUtils;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.StringUtils;

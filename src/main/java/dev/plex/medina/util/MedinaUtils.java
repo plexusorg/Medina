@@ -11,10 +11,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import java.time.format.DateTimeFormatter;
 
 
 public class MedinaUtils implements MedinaBase

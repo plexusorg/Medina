@@ -3,7 +3,6 @@ package dev.plex.medina.storage;
 import com.google.common.collect.Lists;
 import dev.plex.medina.MedinaBase;
 import dev.plex.medina.data.Report;
-import dev.plex.medina.util.MedinaLog;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

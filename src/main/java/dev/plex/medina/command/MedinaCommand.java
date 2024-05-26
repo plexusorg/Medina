@@ -1,9 +1,5 @@
 package dev.plex.medina.command;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.collect.Lists;
 import dev.plex.medina.Medina;
 import dev.plex.medina.command.annotation.CommandParameters;
@@ -20,6 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("all")
 public abstract class MedinaCommand extends Command implements PluginIdentifiableCommand
