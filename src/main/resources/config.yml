@@ -7,6 +7,3 @@ database:
   port: 3306
   username: minecraft
   password: medina
-
-# The timezone the reports will show up as
-timezone: Etc/UTC

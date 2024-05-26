@@ -3,6 +3,7 @@ package dev.plex.medina;
 import dev.plex.medina.config.Config;
 import dev.plex.medina.registration.CommandRegistration;
 import dev.plex.medina.storage.SQLConnection;
+import dev.plex.medina.storage.SQLReports;
 import dev.plex.medina.util.MedinaUtils;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
@@ -19,6 +20,9 @@ public class Medina extends JavaPlugin
 
     @Getter
     private SQLConnection sqlConnection;
+
+    @Getter
+    private SQLReports sqlReports;
 
     @Override
     public void onLoad()
@@ -39,6 +43,8 @@ public class Medina extends JavaPlugin
 
         sqlConnection = new SQLConnection();
         MedinaUtils.testConnection();
+
+        sqlReports = new SQLReports();
 
         new CommandRegistration();
     }

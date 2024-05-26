@@ -30,6 +30,7 @@ dependencies {
     library(libs.hikari)
     compileOnly(libs.paperApi)
     implementation(libs.bundles.bstats) { isTransitive = false }
+    library(libs.mariadb.java.client)
     annotationProcessor(libs.lombok)
 }
 
@@ -52,6 +53,7 @@ paper {
     name = "Medina"
     version = project.version.toString()
     main = "dev.plex.medina.Medina"
+    loader = "dev.plex.medina.MedinaLibraryManager"
     apiVersion = "1.20"
     foliaSupported = true
     authors = listOf("Telesphoreo")

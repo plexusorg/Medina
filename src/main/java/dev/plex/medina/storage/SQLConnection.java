@@ -49,7 +49,7 @@ public class SQLConnection implements MedinaBase
         try (Connection con = getCon())
         {
             con.prepareStatement("CREATE TABLE IF NOT EXISTS `reports` (" +
-                    "`reportId` INT NOT NULL AUTOINCREMENT, " +
+                    "`reportId` INT NOT NULL AUTO_INCREMENT, " +
                     "`reporterUUID` VARCHAR(46) NOT NULL, " +
                     "`reporterName` VARCHAR(18), " +
                     "`reportedUUID` VARCHAR(46) NOT NULL, " +

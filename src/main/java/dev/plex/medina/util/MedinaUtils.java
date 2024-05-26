@@ -1,19 +1,26 @@
 package dev.plex.medina.util;
 
-import dev.plex.medina.Medina;
 import dev.plex.medina.MedinaBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import java.time.format.DateTimeFormatter;
+
 
 public class MedinaUtils implements MedinaBase
 {
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
-    public static String TIMEZONE = plugin.config.getString("timezone");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm:ss a z");
 
     public static Component mmDeserialize(String input)
     {
@@ -58,6 +65,16 @@ public class MedinaUtils implements MedinaBase
             f = f.replace("{" + i + "}", String.valueOf(objects[i]));
         }
         return f;
+    }
+
+    public static List<String> getPlayerNameList()
+    {
+        return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+    }
+
+    public static String useTimezone(ZonedDateTime date)
+    {
+        return DATE_FORMAT.withZone(ZoneId.systemDefault()).format(date);
     }
 
     public static void testConnection()

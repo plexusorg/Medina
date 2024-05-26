@@ -2,10 +2,12 @@ package dev.plex.medina.command;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import dev.plex.medina.Medina;
 import dev.plex.medina.command.annotation.CommandParameters;
+import dev.plex.medina.command.exception.PlayerNotFoundException;
 import dev.plex.medina.command.source.RequiredCommandSource;
 import dev.plex.medina.util.MedinaUtils;
 import net.kyori.adventure.audience.Audience;
@@ -148,7 +150,7 @@ public abstract class MedinaCommand extends Command implements PluginIdentifiabl
                 send(sender, component);
             }
         }
-        catch (NumberFormatException ex)
+        catch (PlayerNotFoundException | NumberFormatException ex)
         {
             send(sender, MedinaUtils.mmDeserialize(ex.getMessage()));
         }
@@ -222,6 +224,25 @@ public abstract class MedinaCommand extends Command implements PluginIdentifiabl
     protected boolean isConsole(CommandSender sender)
     {
         return !(sender instanceof Player);
+    }
+
+    protected Player getNonNullPlayer(String name)
+    {
+        try
+        {
+            UUID uuid = UUID.fromString(name);
+            return Bukkit.getPlayer(uuid);
+        }
+        catch (IllegalArgumentException ignored)
+        {
+        }
+
+        Player player = Bukkit.getPlayer(name);
+        if (player == null)
+        {
+            throw new PlayerNotFoundException();
+        }
+        return player;
     }
 
     /**
@@ -302,6 +323,19 @@ public abstract class MedinaCommand extends Command implements PluginIdentifiabl
     protected Component mmString(String s)
     {
         return MedinaUtils.mmDeserialize(s);
+    }
+
+    protected Integer parseInt(CommandSender sender, String string)
+    {
+        try
+        {
+            return Integer.parseInt(string);
+        }
+        catch (NumberFormatException ex)
+        {
+            sender.sendMessage(mmString("<red>Not a valid number."));
+        }
+        return null;
     }
 
     public CommandMap getMap()

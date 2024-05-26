@@ -17,3 +17,24 @@ noPermissionNode: "<red>You must have the permission: {0} <red>to use this comma
 noPermissionInGame: "<red>You must be in console to use this command!"
 noPermissionConsole: "<red>You must be in-game to use this command!"
 consoleOnly: "<red>This command can only be executed by the console."
+
+# 0 - the reported player's username
+reportSubmitted: "<green>Your report against {0} was submitted."
+
+noReports: "<red>This player has no existing reports."
+
+# 0 - Player who is having their reports fetched
+reportHeader: "<gold>Player reports for: <yellow>{0}"
+
+# 0 - Report ID
+# 1 - Author of the note
+# 2 - Timestamp
+reportPrefix: "<gold><!italic>{0} - Written by: {1} on {2}"
+
+# 0 - The content of the report
+reportLine: "<newline><yellow># {0}"
+
+# 0 - the Report ID
+deletedReport: "<green>Report ID: {0} deleted"
+
+reportDoesntExist: "<red>There is no report with this ID belonging to that player."
