@@ -56,6 +56,7 @@ public class SQLConnection implements MedinaBase
                     "`reportedName` VARCHAR(18), " +
                     "`timestamp` BIGINT, " +
                     "`reason` VARCHAR(2000), " +
+                    "`resolved` BOOLEAN, " +
                     "`deleted` BOOLEAN, " +
                     "PRIMARY KEY (`reportId`));").execute();
         }

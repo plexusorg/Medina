@@ -46,6 +46,7 @@ public class ReportCommand extends MedinaCommand
                 player.getName(),
                 ZonedDateTime.now(),
                 reason,
+                false,
                 false);
 
         plugin.getSqlReports().addReport(report);

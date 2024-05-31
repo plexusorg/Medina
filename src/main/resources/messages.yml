@@ -29,7 +29,7 @@ reportHeader: "<gold>Player reports for: <yellow>{0}"
 # 0 - Report ID
 # 1 - Author of the note
 # 2 - Timestamp
-reportPrefix: "<gold><!italic>{0} - Written by: {1} on {2}"
+reportPrefix: "<gold><!italic>{0} - Reported by: {1} on {2}"
 
 # 0 - The content of the report
 reportLine: "<newline><yellow># {0}"
@@ -45,3 +45,18 @@ reportDoesntExist: "<red>There is no report with this ID belonging to that playe
 notifyReport: "<dark_gray>[<yellow>REPORT<dark_gray>] <gold>{0} reported {1} for {2}"
 
 cantReportYourself: "<red>You cannot report yourself."
+
+# 0 - The report ID
+resolvedReport: "<green>Report with ID: {0} has been resolved!"
+
+unresolvedReports: "<gold>--- Unresolved Reports ---"
+
+# 0 - The report ID
+# 1 - The reporter name
+# 2 - The reported name
+reportSummary: "<gold>ID: <yellow>{0}<gold>, <yellow>{1}<gold> reported <yellow>{2}<gold> - <green><click:run_command:/reports {2} read {0}>Click to view</click>"
+
+noUnresolvedReports: "<red>There are no unresolved reports."
+
+# 0 - The report ID
+clickToResolve: "<green><click:run_command:/reports resolve {0}>Click to resolve</click>"

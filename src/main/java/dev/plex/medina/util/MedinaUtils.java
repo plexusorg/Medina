@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class MedinaUtils implements MedinaBase
 {
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm:ss a z");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm:ss a");
 
     public static Component mmDeserialize(String input)
     {

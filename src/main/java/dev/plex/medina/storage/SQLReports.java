@@ -18,10 +18,12 @@ public class SQLReports implements MedinaBase
 {
     private static final String SELECT = "SELECT * FROM `reports` WHERE reportedUUID=?";
     private static final String SELECT_ID = "SELECT * FROM `reports` WHERE reportId=?";
-    private static final String INSERT = "INSERT INTO `reports` (`reporterUUID`, `reporterName`, `reportedUUID`, `reportedName`, `timestamp`, `reason`, `deleted`) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String SELECT_UNRESOLVED = "SELECT * FROM `reports` WHERE resolved=?";
+    private static final String RESOLVE = "UPDATE `reports` SET `resolved`=true WHERE reportId=?";
+    private static final String INSERT = "INSERT INTO `reports` (`reporterUUID`, `reporterName`, `reportedUUID`, `reportedName`, `timestamp`, `reason`, `resolved`, `deleted`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE = "UPDATE `reports` SET `deleted`=true WHERE reportId=? AND reportedUUID=?";
 
-    public CompletableFuture<Report> getReports(int reportedId)
+    public CompletableFuture<Report> getReport(int reportedId)
     {
         return CompletableFuture.supplyAsync(() ->
         {
@@ -41,6 +43,7 @@ public class SQLReports implements MedinaBase
                             set.getString("reportedName"),
                             ZonedDateTime.ofInstant(Instant.ofEpochMilli(set.getLong("timestamp")), ZoneId.systemDefault()),
                             set.getString("reason"),
+                            set.getBoolean("resolved"),
                             set.getBoolean("deleted"));
                     return report;
                 }
@@ -51,6 +54,57 @@ public class SQLReports implements MedinaBase
                 return null;
             }
             return null;
+        });
+    }
+
+    public CompletableFuture<List<Report>> getUnresolvedReports()
+    {
+        return CompletableFuture.supplyAsync(() ->
+        {
+            List<Report> reports = Lists.newArrayList();
+            try (Connection con = plugin.getSqlConnection().getCon())
+            {
+                PreparedStatement statement = con.prepareStatement(SELECT_UNRESOLVED);
+                statement.setBoolean(1, false);
+                ResultSet set = statement.executeQuery();
+                while (set.next())
+                {
+                    Report report = new Report(
+                            set.getInt("reportId"),
+                            UUID.fromString(set.getString("reporterUUID")),
+                            set.getString("reporterName"),
+                            UUID.fromString(set.getString("reportedUUID")),
+                            set.getString("reportedName"),
+                            ZonedDateTime.ofInstant(Instant.ofEpochMilli(set.getLong("timestamp")), ZoneId.systemDefault()),
+                            set.getString("reason"),
+                            set.getBoolean("resolved"),
+                            set.getBoolean("deleted"));
+                    reports.add(report);
+                }
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+                return reports;
+            }
+            return reports;
+        });
+    }
+
+    public CompletableFuture<Void> resolveReport(int reportId)
+    {
+        return CompletableFuture.runAsync(() ->
+        {
+            try (Connection con = plugin.getSqlConnection().getCon())
+            {
+                PreparedStatement statement = con.prepareStatement(RESOLVE);
+                statement.setInt(1, reportId);
+                statement.execute();
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -74,6 +128,7 @@ public class SQLReports implements MedinaBase
                             set.getString("reportedName"),
                             ZonedDateTime.ofInstant(Instant.ofEpochMilli(set.getLong("timestamp")), ZoneId.systemDefault()),
                             set.getString("reason"),
+                            set.getBoolean("resolved"),
                             set.getBoolean("deleted"));
                     reports.add(report);
                 }
@@ -120,7 +175,8 @@ public class SQLReports implements MedinaBase
                     statement.setString(4, report.getReportedName());
                     statement.setLong(5, report.getTimestamp().toInstant().toEpochMilli());
                     statement.setString(6, report.getReason());
-                    statement.setBoolean(7, report.isDeleted());
+                    statement.setBoolean(7, report.isResolved());
+                    statement.setBoolean(8, report.isDeleted());
                     statement.execute();
                 }
                 catch (Throwable e)

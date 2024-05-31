@@ -34,6 +34,9 @@ public class Report
     private final String reason;
 
     @Getter
+    private final boolean resolved;
+
+    @Getter
     private final boolean deleted;
 
     public String toJSON()
